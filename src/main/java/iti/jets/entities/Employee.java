@@ -1,4 +1,4 @@
-package iti.jets.persistence.entities;
+package iti.jets.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -52,7 +52,6 @@ public class Employee {
     @Column(name = "hire_date")
     private LocalDate hireDate;
 
-    @NotNull
     @Column(name = "vacations", nullable = false)
     private Integer vacations;
 
@@ -66,11 +65,9 @@ public class Employee {
     @JoinColumn(name = "manager_id", nullable = false)
     private Employee manager;
 
-    @NotNull
     @Column(name = "deduction", nullable = false, precision = 10, scale = 2)
     private BigDecimal deduction;
 
-    @NotNull
     @Column(name = "bonus", nullable = false, precision = 10, scale = 2)
     private BigDecimal bonus;
 
@@ -82,5 +79,4 @@ public class Employee {
 
     @OneToMany(mappedBy = "manager")
     private Set<Employee> employees = new LinkedHashSet<>();
-
 }

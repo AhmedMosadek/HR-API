@@ -1,4 +1,4 @@
-package iti.jets.persistence.entities;
+package iti.jets.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
