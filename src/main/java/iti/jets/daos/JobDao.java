@@ -41,4 +41,6 @@ public class JobDao extends AbstractCRUDDao<Job>{
                 .setParameter("jobId", jobId)
                 .getSingleResult());
     }
+
+
 }

@@ -1,5 +1,6 @@
 package iti.jets.dtos;
 
+import iti.jets.entities.Job;
 import lombok.Getter;
 import lombok.Setter;
 

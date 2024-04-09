@@ -1,5 +1,6 @@
 package iti.jets.entities;
 
+import iti.jets.dtos.EmployeeDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -79,4 +80,43 @@ public class Employee {
 
     @OneToMany(mappedBy = "manager")
     private Set<Employee> employees = new LinkedHashSet<>();
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", salary=" + salary +
+                ", job=" + job +
+                ", age=" + age +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", birthdate=" + birthdate +
+                ", hireDate=" + hireDate +
+                ", vacations=" + vacations +
+                ", department=" + department +
+                ", manager=" + manager +
+                ", deduction=" + deduction +
+                ", bonus=" + bonus +
+                '}';
+    }
+
+    public EmployeeDto toDto() {
+        EmployeeDto employeeDto = new EmployeeDto();
+        employeeDto.setId(id);
+        employeeDto.setFirstName(firstName);
+        employeeDto.setLastName(lastName);
+        employeeDto.setSalary(salary);
+        employeeDto.setJobId(job.getId());
+        employeeDto.setAge(age);
+        employeeDto.setPhoneNumber(phoneNumber);
+        employeeDto.setBirthdate(birthdate);
+        employeeDto.setHireDate(hireDate);
+        employeeDto.setVacations(vacations);
+        employeeDto.setDepartmentID(department.getId());
+        employeeDto.setManagerID(manager.getId());
+        employeeDto.setDeduction(deduction);
+        employeeDto.setBonus(bonus);
+        return employeeDto;
+    }
 }

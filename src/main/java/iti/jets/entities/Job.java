@@ -1,5 +1,6 @@
 package iti.jets.entities;
 
+import iti.jets.dtos.JobDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -40,4 +41,24 @@ public class Job {
     @OneToMany(mappedBy = "job")
     private Set<Employee> employees = new LinkedHashSet<>();
 
+    @Override
+    public String toString() {
+        return "Job{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", jobDescription='" + jobDescription + '\'' +
+                ", minSalary=" + minSalary +
+                ", maxSalary=" + maxSalary +
+                '}';
+    }
+
+    public JobDto toDto() {
+        JobDto jobDto = new JobDto();
+        jobDto.setId(id);
+        jobDto.setName(name);
+        jobDto.setJobDescription(jobDescription);
+        jobDto.setMinSalary(minSalary);
+        jobDto.setMaxSalary(maxSalary);
+        return jobDto;
+    }
 }
