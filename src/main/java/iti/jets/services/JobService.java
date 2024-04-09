@@ -10,6 +10,7 @@ import jakarta.persistence.EntityTransaction;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 public class JobService {
@@ -41,22 +42,24 @@ public class JobService {
         return true;
     }
 
-    public Job findJob(int id){
+    public JobDto findJob(int id){
         JobDao jobDao = JobDao.getInstance();
-        return jobDao.findOneById(em, id).orElse(null);
+        return jobDao.findOneById(em, id).get().toDto();
     }
 
     private void populateJob(Job job, JobDto jobDto) {
-        job.setName(jobDto.getName());
-        job.setJobDescription(jobDto.getJobDescription());
-        job.setMinSalary(jobDto.getMinSalary());
-        job.setMaxSalary(jobDto.getMaxSalary());
+        Optional.ofNullable(jobDto.getId()).ifPresent(job::setId);
+        Optional.ofNullable(jobDto.getName()).ifPresent(job::setName);
+        Optional.ofNullable(jobDto.getJobDescription()).ifPresent(job::setJobDescription);
+        Optional.ofNullable(jobDto.getMinSalary()).ifPresent(job::setMinSalary);
+        Optional.ofNullable(jobDto.getMaxSalary()).ifPresent(job::setMaxSalary);
     }
 
 
-    public List<Job> findAllJobs() {
+    public List<JobDto> findAllJobs() {
         JobDao jobDao = JobDao.getInstance();
-        return jobDao.findAll(em);
+        List<Job> jobs = jobDao.findAll(em);
+        return Job.toDtoList(jobs);
     }
 
     public boolean updateJob(JobDto jobDto) {

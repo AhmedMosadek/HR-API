@@ -11,7 +11,7 @@ import java.util.List;
 @Path("employees")
 public class EmployeeController {
     @POST
-    @Path("/create")
+//    @Path("/create")
     @Consumes("application/json")
     @Produces("text/plain")
     public String createEmployee(EmployeeDto employeeDto) {
@@ -22,41 +22,42 @@ public class EmployeeController {
         return "Error Creating Employee,Please Try Again";
     }
 
-    @POST
-    @Path("/find/{id}")
+    @GET
+    @Path("/{id}")
     @Produces("application/json")
     public EmployeeDto findEmployee(@PathParam("id") int id) {
         EmployeeService employeeService = new EmployeeService();
         try {
-            EmployeeDto employeeDto = employeeService.findEmployee(id).toDto();
+            EmployeeDto employeeDto = employeeService.findEmployee(id);
+            System.out.println("employee: " + employeeDto);
             return employeeDto;
         }catch (NullPointerException e){
             return null;
         }
     }
 
-    @POST
-    @Path("/findall")
+    @GET
+//    @Path("/findall")
     @Produces("application/json")
-    public List<Employee> findAllEmployees() {
+    public List<EmployeeDto> findAllEmployees() {
         EmployeeService employeeService = new EmployeeService();
         return employeeService.findAllEmployees();
     }
 
     @PUT
-    @Path("/update")
+    @Path("/{id}")
     @Consumes("application/json")
     @Produces("text/plain")
-    public String updateEmployee(EmployeeDto employeeDto) {
+    public String updateEmployee(EmployeeDto employeeDto,@PathParam("id") int id) {
         EmployeeService employeeService = new EmployeeService();
-        if(employeeService.updateEmployee(employeeDto)){
+        if(employeeService.updateEmployee(employeeDto,id)){
             return "Employee Updated";
         }
         return "Error Updating Employee,Please Try Again";
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/{id}")
     @Produces("text/plain")
     public String deleteEmployee(@PathParam("id") int id) {
         EmployeeService employeeService = new EmployeeService();
@@ -67,7 +68,7 @@ public class EmployeeController {
     }
 
     @DELETE
-    @Path("/deleteall")
+    @Path("/drop")
     @Produces("text/plain")
     public String deleteAllEmployees() {
         EmployeeService employeeService = new EmployeeService();

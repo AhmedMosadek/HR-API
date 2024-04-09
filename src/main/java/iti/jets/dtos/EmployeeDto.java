@@ -3,12 +3,13 @@ package iti.jets.dtos;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
 @Setter
-public class EmployeeDto {
+public class EmployeeDto implements Serializable{
     private int id;
     private String firstName;
     private String lastName;

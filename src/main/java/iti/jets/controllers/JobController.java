@@ -28,17 +28,17 @@ public class JobController {
     public JobDto findJob(@PathParam("id") int id) {
         JobService jobService = new JobService();
         try {
-            JobDto jobDto = jobService.findJob(id).toDto();
+            JobDto jobDto = jobService.findJob(id);
             return jobDto;
         }catch (NullPointerException e){
             return null;
         }
     }
 
-        @GET
+    @GET
     @Path("/findall")
     @Produces("application/json")
-    public List<Job> findAllJobs() {
+    public List<JobDto> findAllJobs() {
         JobService jobService = new JobService();
         return jobService.findAllJobs();
     }

@@ -7,15 +7,18 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "jobs")
-public class Job {
+public class Job implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -41,6 +44,8 @@ public class Job {
     @OneToMany(mappedBy = "job")
     private Set<Employee> employees = new LinkedHashSet<>();
 
+
+
     @Override
     public String toString() {
         return "Job{" +
@@ -54,11 +59,15 @@ public class Job {
 
     public JobDto toDto() {
         JobDto jobDto = new JobDto();
-        jobDto.setId(id);
-        jobDto.setName(name);
-        jobDto.setJobDescription(jobDescription);
-        jobDto.setMinSalary(minSalary);
-        jobDto.setMaxSalary(maxSalary);
+        Optional.ofNullable(id).ifPresent(jobDto::setId);
+        Optional.ofNullable(name).ifPresent(jobDto::setName);
+        Optional.ofNullable(jobDescription).ifPresent(jobDto::setJobDescription);
+        Optional.ofNullable(minSalary).ifPresent(jobDto::setMinSalary);
+        Optional.ofNullable(maxSalary).ifPresent(jobDto::setMaxSalary);
         return jobDto;
+    }
+
+    public static List<JobDto> toDtoList(List<Job> jobs) {
+        return jobs.stream().map(Job::toDto).toList();
     }
 }

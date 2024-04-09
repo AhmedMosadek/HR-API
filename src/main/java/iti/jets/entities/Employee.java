@@ -7,16 +7,19 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "employees")
-public class Employee {
+public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -56,12 +59,10 @@ public class Employee {
     @Column(name = "vacations", nullable = false)
     private Integer vacations;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "manager_id", nullable = false)
     private Employee manager;
@@ -80,6 +81,10 @@ public class Employee {
 
     @OneToMany(mappedBy = "manager")
     private Set<Employee> employees = new LinkedHashSet<>();
+
+    public static List<EmployeeDto> toDtoList(List<Employee> employees) {
+        return employees.stream().map(Employee::toDto).toList();
+    }
 
     @Override
     public String toString() {
@@ -103,20 +108,20 @@ public class Employee {
 
     public EmployeeDto toDto() {
         EmployeeDto employeeDto = new EmployeeDto();
-        employeeDto.setId(id);
-        employeeDto.setFirstName(firstName);
-        employeeDto.setLastName(lastName);
-        employeeDto.setSalary(salary);
-        employeeDto.setJobId(job.getId());
-        employeeDto.setAge(age);
-        employeeDto.setPhoneNumber(phoneNumber);
-        employeeDto.setBirthdate(birthdate);
-        employeeDto.setHireDate(hireDate);
-        employeeDto.setVacations(vacations);
-        employeeDto.setDepartmentID(department.getId());
-        employeeDto.setManagerID(manager.getId());
-        employeeDto.setDeduction(deduction);
-        employeeDto.setBonus(bonus);
+        Optional.ofNullable(id).ifPresent(employeeDto::setId);
+        Optional.ofNullable(firstName).ifPresent(employeeDto::setFirstName);
+        Optional.ofNullable(lastName).ifPresent(employeeDto::setLastName);
+        Optional.ofNullable(salary).ifPresent(employeeDto::setSalary);
+        Optional.ofNullable(job).map(Job::getId).ifPresent(employeeDto::setJobId);
+        Optional.ofNullable(age).ifPresent(employeeDto::setAge);
+        Optional.ofNullable(phoneNumber).ifPresent(employeeDto::setPhoneNumber);
+        Optional.ofNullable(birthdate).ifPresent(employeeDto::setBirthdate);
+        Optional.ofNullable(hireDate).ifPresent(employeeDto::setHireDate);
+        Optional.ofNullable(vacations).ifPresent(employeeDto::setVacations);
+        Optional.ofNullable(department).map(Department::getId).ifPresent(employeeDto::setDepartmentID);
+        Optional.ofNullable(manager).map(Employee::getId).ifPresent(employeeDto::setManagerID);
+        Optional.ofNullable(deduction).ifPresent(employeeDto::setDeduction);
+        Optional.ofNullable(bonus).ifPresent(employeeDto::setBonus);
         return employeeDto;
     }
 }
