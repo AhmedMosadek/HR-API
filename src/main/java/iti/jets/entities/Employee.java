@@ -14,6 +14,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -85,6 +86,11 @@ public class Employee implements Serializable {
     public static List<EmployeeDto> toDtoList(List<Employee> employees) {
         return employees.stream().map(Employee::toDto).toList();
     }
+
+    public static Set<EmployeeDto> toDtoSet(Set<Employee> employees) {
+        return employees.stream().map(Employee::toDto).collect(Collectors.toSet());
+    }
+
 
     @Override
     public String toString() {

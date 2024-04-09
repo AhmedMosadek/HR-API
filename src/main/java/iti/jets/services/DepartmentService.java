@@ -3,6 +3,7 @@ package iti.jets.services;
 import iti.jets.daos.DepartmentDao;
 import iti.jets.daos.EmployeeDao;
 import iti.jets.dtos.DepartmentDto;
+import iti.jets.dtos.EmployeeDto;
 import iti.jets.entities.Department;
 import iti.jets.entities.Employee;
 import jakarta.persistence.EntityManager;
@@ -44,31 +45,32 @@ public class DepartmentService {
         EmployeeDao.getInstance().findOneById(em, departmentDto.getManagerID()).ifPresent(department::setManager);
     }
 
-    public Department findDepartment(int id) {
+    public DepartmentDto findDepartment(int id) {
         DepartmentDao departmentDao = DepartmentDao.getInstance();
-        return departmentDao.findOneById(em, id).orElse(null);
+        return departmentDao.findOneById(em, id).get().toDto();
     }
 
-    public List<Department> findAllDepartments() {
+    public List<DepartmentDto> findAllDepartments() {
         DepartmentDao departmentDao = DepartmentDao.getInstance();
-        return departmentDao.findAll(em);
+        List<Department> departments = departmentDao.findAll(em);
+        return Department.toDtoList(departments);
     }
 
-    public boolean updateDepartment(DepartmentDto departmentDto) {
+    public boolean updateDepartment(DepartmentDto departmentDto, int id) {
         DepartmentDao departmentDao = DepartmentDao.getInstance();
-        Department department = new Department();
-
-        EntityTransaction transaction = em.getTransaction();
-
-        populateDepartment(department, departmentDto);
+        Department department = null;
+        departmentDto.setId(id);
 
         try {
-            transaction.begin();
+            em.getTransaction().begin();
+            department = departmentDao.findOneById(em, id).orElseGet(()->null);
+            populateDepartment(department, departmentDto);
+
             departmentDao.update(em, department);
-            transaction.commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
             }
             e.printStackTrace();
             return false;
@@ -116,8 +118,9 @@ public class DepartmentService {
         return true;
     }
 
-    public Set<Employee> findDepartmentEmployees(int id) {
-       Department department = findDepartment(id);
-         return department.getEmployees();
+    public Set<EmployeeDto> findDepartmentEmployees(int id) {
+        DepartmentDao departmentDao = DepartmentDao.getInstance();
+        Department department = departmentDao.findOneById(em, id).get();
+        return Employee.toDtoSet(department.getEmployees());
     }
 }

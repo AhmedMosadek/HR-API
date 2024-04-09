@@ -14,7 +14,7 @@ public class EmployeeDto implements Serializable{
     private String firstName;
     private String lastName;
     private BigDecimal salary;
-    private int jobId;
+    private int jobID;
     private int age;
     private String phoneNumber;
     private LocalDate birthdate;

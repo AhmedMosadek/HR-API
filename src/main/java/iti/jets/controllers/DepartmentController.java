@@ -1,6 +1,7 @@
 package iti.jets.controllers;
 
 import iti.jets.dtos.DepartmentDto;
+import iti.jets.dtos.EmployeeDto;
 import iti.jets.entities.Department;
 import iti.jets.entities.Employee;
 import iti.jets.services.DepartmentService;
@@ -13,7 +14,6 @@ import java.util.Set;
 public class DepartmentController {
 
     @POST
-    @Path("/create")
     @Consumes("application/json")
     @Produces("text/plain")
     public String createDepartment(DepartmentDto departmentDto) {
@@ -25,12 +25,12 @@ public class DepartmentController {
     }
 
     @GET
-    @Path("/find/{id}")
+    @Path("/{id}")
     @Produces("application/json")
     public DepartmentDto findDepartment(@PathParam("id") int id) {
         DepartmentService departmentService = new DepartmentService();
         try {
-            DepartmentDto departmentDto = departmentService.findDepartment(id).toDto();
+            DepartmentDto departmentDto = departmentService.findDepartment(id);
             return departmentDto;
         }catch (NullPointerException e){
             return null;
@@ -38,27 +38,26 @@ public class DepartmentController {
     }
 
     @GET
-    @Path("/findall")
     @Produces("application/json")
-    public List<Department> findAllDepartments() {
+    public List<DepartmentDto> findAllDepartments() {
         DepartmentService departmentService = new DepartmentService();
         return departmentService.findAllDepartments();
     }
 
     @PUT
-    @Path("/update")
+    @Path("/{id}")
     @Consumes("application/json")
     @Produces("text/plain")
-    public String updateDepartment(DepartmentDto departmentDto) {
+    public String updateDepartment(DepartmentDto departmentDto, @PathParam("id") int id) {
         DepartmentService departmentService = new DepartmentService();
-        if(departmentService.updateDepartment(departmentDto)){
+        if(departmentService.updateDepartment(departmentDto,id)){
             return "Department Updated";
         }
         return "Error Updating Department,Please Try Again";
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/{id}")
     @Produces("text/plain")
     public String deleteDepartment(@PathParam("id") int id) {
         DepartmentService departmentService = new DepartmentService();
@@ -69,7 +68,6 @@ public class DepartmentController {
     }
 
     @DELETE
-    @Path("/deleteall")
     @Produces("text/plain")
     public String deleteAllDepartments() {
         DepartmentService departmentService = new DepartmentService();
@@ -80,9 +78,9 @@ public class DepartmentController {
     }
 
     @GET
-    @Path("/find/{id}/employees")
+    @Path("/{id}/employees")
     @Produces("application/json")
-    public Set<Employee> findDepartmentEmployees(@PathParam("id") int id) {
+    public Set<EmployeeDto> findDepartmentEmployees(@PathParam("id") int id) {
         DepartmentService departmentService = new DepartmentService();
         return departmentService.findDepartmentEmployees(id);
     }

@@ -11,7 +11,6 @@ import java.util.List;
 @Path("employees")
 public class EmployeeController {
     @POST
-//    @Path("/create")
     @Consumes("application/json")
     @Produces("text/plain")
     public String createEmployee(EmployeeDto employeeDto) {
@@ -37,7 +36,6 @@ public class EmployeeController {
     }
 
     @GET
-//    @Path("/findall")
     @Produces("application/json")
     public List<EmployeeDto> findAllEmployees() {
         EmployeeService employeeService = new EmployeeService();

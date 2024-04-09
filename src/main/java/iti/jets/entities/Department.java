@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Getter
@@ -31,11 +33,15 @@ public class Department implements Serializable {
     @OneToMany(mappedBy = "department", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Employee> employees = new LinkedHashSet<>();
 
+    public static List<DepartmentDto> toDtoList(List<Department> departments) {
+        return departments.stream().map(Department::toDto).toList();
+    }
+
     public DepartmentDto toDto() {
         DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setId(id);
-        departmentDto.setName(name);
-        departmentDto.setManagerID(manager.getId());
+        Optional.ofNullable(this.getId()).ifPresent(departmentDto::setId);
+        Optional.ofNullable(this.getName()).ifPresent(departmentDto::setName);
+        Optional.ofNullable(this.getManager()).ifPresent(manager -> departmentDto.setManagerID(manager.getId()));
         return departmentDto;
     }
 }
