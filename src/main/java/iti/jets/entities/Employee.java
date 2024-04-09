@@ -118,7 +118,7 @@ public class Employee implements Serializable {
         Optional.ofNullable(firstName).ifPresent(employeeDto::setFirstName);
         Optional.ofNullable(lastName).ifPresent(employeeDto::setLastName);
         Optional.ofNullable(salary).ifPresent(employeeDto::setSalary);
-        Optional.ofNullable(job).map(Job::getId).ifPresent(employeeDto::setJobId);
+        Optional.ofNullable(job).map(Job::getId).ifPresent(employeeDto::setJobID);
         Optional.ofNullable(age).ifPresent(employeeDto::setAge);
         Optional.ofNullable(phoneNumber).ifPresent(employeeDto::setPhoneNumber);
         Optional.ofNullable(birthdate).ifPresent(employeeDto::setBirthdate);
