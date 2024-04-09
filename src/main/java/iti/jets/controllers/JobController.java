@@ -11,7 +11,6 @@ import java.util.List;
 public class JobController {
 
     @POST
-    @Path("/create")
     @Consumes("application/json")
     @Produces("text/plain")
     public String createJob(JobDto jobDto) {
@@ -23,7 +22,7 @@ public class JobController {
     }
 
     @GET
-    @Path("/find/{id}")
+    @Path("/{id}")
     @Produces("application/json")
     public JobDto findJob(@PathParam("id") int id) {
         JobService jobService = new JobService();
@@ -36,7 +35,6 @@ public class JobController {
     }
 
     @GET
-    @Path("/findall")
     @Produces("application/json")
     public List<JobDto> findAllJobs() {
         JobService jobService = new JobService();
@@ -45,12 +43,12 @@ public class JobController {
 
     // update a job
     @PUT
-    @Path("/update")
+    @Path("/{id}")
     @Consumes("application/json")
     @Produces("text/plain")
-    public String updateJob(JobDto jobDto) {
+    public String updateJob(JobDto jobDto, @PathParam("id") int id){
         JobService jobService = new JobService();
-        if(jobService.updateJob(jobDto)){
+        if(jobService.updateJob(jobDto, id)){
             return "Job Updated";
         }
         return "Error Updating Job,Please Try Again";
@@ -58,7 +56,7 @@ public class JobController {
 
     // delete a job
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/{id}")
     @Produces("text/plain")
     public String deleteJob(@PathParam("id") int id) {
         JobService jobService = new JobService();
@@ -70,7 +68,6 @@ public class JobController {
 
     // delete all
     @DELETE
-    @Path("/deleteall")
     @Produces("text/plain")
     public String deleteAllJobs() {
         JobService jobService = new JobService();

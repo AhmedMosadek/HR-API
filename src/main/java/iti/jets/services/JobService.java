@@ -48,7 +48,7 @@ public class JobService {
     }
 
     private void populateJob(Job job, JobDto jobDto) {
-        Optional.ofNullable(jobDto.getId()).ifPresent(job::setId);
+//        Optional.ofNullable(jobDto.getId()).ifPresent(job::setId);
         Optional.ofNullable(jobDto.getName()).ifPresent(job::setName);
         Optional.ofNullable(jobDto.getJobDescription()).ifPresent(job::setJobDescription);
         Optional.ofNullable(jobDto.getMinSalary()).ifPresent(job::setMinSalary);
@@ -62,12 +62,16 @@ public class JobService {
         return Job.toDtoList(jobs);
     }
 
-    public boolean updateJob(JobDto jobDto) {
+    public boolean updateJob(JobDto jobDto, int id) {
         JobDao jobDao = JobDao.getInstance();
-        Job job = new Job();
-        populateJob(job, jobDto);
+        Job job = null;
+        jobDto.setId(id);
+
         try {
             em.getTransaction().begin();
+            job = jobDao.findOneById(em, id).orElseGet(()->null);
+            populateJob(job, jobDto);
+
             jobDao.update(em, job);
             em.getTransaction().commit();
         } catch (Exception e) {
