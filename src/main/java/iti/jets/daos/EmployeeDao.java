@@ -13,7 +13,10 @@ public class EmployeeDao extends AbstractCRUDDao<Employee>{
         super(Employee.class);
     }
 
-    public static EmployeeDao getInstance() {
+    public synchronized static EmployeeDao getInstance() {
+        if(INSTANCE == null) {
+            return new EmployeeDao();
+        }
         return INSTANCE;
     }
 
