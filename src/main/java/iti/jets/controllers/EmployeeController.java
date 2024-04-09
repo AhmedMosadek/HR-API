@@ -68,7 +68,6 @@ public class EmployeeController {
     }
 
     @DELETE
-    @Path("/drop")
     @Produces("text/plain")
     public String deleteAllEmployees() {
         EmployeeService employeeService = new EmployeeService();
