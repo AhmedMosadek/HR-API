@@ -42,7 +42,7 @@ public class EmployeeService {
         Optional.ofNullable(employeeDto.getFirstName()).ifPresent(employee::setFirstName);
         Optional.ofNullable(employeeDto.getLastName()).ifPresent(employee::setLastName);
         Optional.ofNullable(employeeDto.getSalary()).ifPresent(employee::setSalary);
-        Optional.of(employeeDto.getJobId()).flatMap(jobId -> JobDao.getInstance().findOneById(em, jobId)).ifPresent(employee::setJob);
+        Optional.of(employeeDto.getJobID()).flatMap(jobId -> JobDao.getInstance().findOneById(em, jobId)).ifPresent(employee::setJob);
         Optional.of(employeeDto.getAge()).ifPresent(employee::setAge);
         Optional.ofNullable(employeeDto.getPhoneNumber()).ifPresent(employee::setPhoneNumber);
         Optional.ofNullable(employeeDto.getBirthdate()).ifPresent(employee::setBirthdate);

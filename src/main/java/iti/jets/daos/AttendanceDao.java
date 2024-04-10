@@ -10,7 +10,10 @@ public class AttendanceDao extends AbstractCRUDDao<Attendance>{
     protected AttendanceDao(Class<Attendance> clazz) {
         super(clazz);
     }
-    public static AttendanceDao getInstance() {
+    public synchronized static AttendanceDao getInstance() {
+        if(INSTANCE == null){
+            return new AttendanceDao(Attendance.class);
+        }
         return INSTANCE;
     }
 
