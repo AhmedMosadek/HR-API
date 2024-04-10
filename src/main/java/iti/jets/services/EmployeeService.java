@@ -14,9 +14,10 @@ import java.util.List;
 import java.util.Optional;
 
 
-public class EmployeeService {
+public class EmployeeService implements BaseService<EmployeeDto>{
     private final EntityManager em = EntityManagerFactoryProvider.getEMF().createEntityManager();
-    public Boolean createEmployee(EmployeeDto employeeDto){
+    @Override
+    public boolean create(EmployeeDto employeeDto){
         EmployeeDao employeeDao = EmployeeDao.getInstance();
         Employee employee = new Employee();
 
@@ -54,19 +55,21 @@ public class EmployeeService {
         Optional.ofNullable(employeeDto.getBonus()).ifPresent(employee::setBonus);
     }
 
-    public EmployeeDto findEmployee(int id) {
+    @Override
+    public EmployeeDto findById(int id) {
         EmployeeDao employeeDao = EmployeeDao.getInstance();
         return employeeDao.findOneById(em, id).get().toDto();
     }
 
-    public List<EmployeeDto> findAllEmployees() {
+    @Override
+    public List<EmployeeDto> findAll() {
         EmployeeDao employeeDao = EmployeeDao.getInstance();
         List<Employee> employees = employeeDao.findAll(em);
         return Employee.toDtoList(employees);
     }
 
-
-    public boolean updateEmployee(EmployeeDto employeeDto, int id) {
+    @Override
+    public boolean update(EmployeeDto employeeDto, int id) {
         EmployeeDao employeeDao = EmployeeDao.getInstance();
         Employee employee = null;
         employeeDto.setId(id);
@@ -91,7 +94,8 @@ public class EmployeeService {
         return true;
     }
 
-    public boolean deleteEmployee(int id) {
+    @Override
+    public boolean delete(int id) {
         EmployeeDao employeeDao = EmployeeDao.getInstance();
 
         try {
@@ -110,7 +114,8 @@ public class EmployeeService {
         return true;
     }
 
-    public boolean deleteAllEmployees() {
+    @Override
+    public boolean deleteAll() {
         EmployeeDao employeeDao = EmployeeDao.getInstance();
         try {
             em.getTransaction().begin();

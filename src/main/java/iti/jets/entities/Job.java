@@ -41,7 +41,7 @@ public class Job implements Serializable {
     @Column(name = "max_salary", nullable = false, precision = 10, scale = 2)
     private BigDecimal maxSalary;
 
-    @OneToMany(mappedBy = "job")
+    @OneToMany(mappedBy = "job" , fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Employee> employees = new LinkedHashSet<>();
 
 

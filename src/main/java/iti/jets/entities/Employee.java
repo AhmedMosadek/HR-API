@@ -40,8 +40,8 @@ public class Employee implements Serializable {
     @Column(name = "salary", nullable = false, precision = 10, scale = 2)
     private BigDecimal salary;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "job_id", nullable = false)
     private Job job;
 
     @Column(name = "age")

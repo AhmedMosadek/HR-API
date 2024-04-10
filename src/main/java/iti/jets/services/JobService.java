@@ -1,8 +1,10 @@
 package iti.jets.services;
 
 import iti.jets.daos.JobDao;
+import iti.jets.dtos.EmployeeDto;
 import iti.jets.dtos.JobDto;
 
+import iti.jets.entities.Employee;
 import iti.jets.entities.Job;
 import jakarta.persistence.EntityManager;
 import iti.jets.configuration.EntityManagerFactoryProvider;
@@ -11,11 +13,13 @@ import jakarta.persistence.EntityTransaction;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
-public class JobService {
+public class JobService implements BaseService<JobDto>{
     private final EntityManager em = EntityManagerFactoryProvider.getEMF().createEntityManager();
-    public boolean createJob(JobDto jobDto) {
+    @Override
+    public boolean create(JobDto jobDto) {
         JobDao jobDao = JobDao.getInstance();
         Job job = new Job();
 
@@ -42,7 +46,8 @@ public class JobService {
         return true;
     }
 
-    public JobDto findJob(int id){
+    @Override
+    public JobDto findById(int id){
         JobDao jobDao = JobDao.getInstance();
         return jobDao.findOneById(em, id).get().toDto();
     }
@@ -56,13 +61,15 @@ public class JobService {
     }
 
 
-    public List<JobDto> findAllJobs() {
+    @Override
+    public List<JobDto> findAll() {
         JobDao jobDao = JobDao.getInstance();
         List<Job> jobs = jobDao.findAll(em);
         return Job.toDtoList(jobs);
     }
 
-    public boolean updateJob(JobDto jobDto, int id) {
+    @Override
+    public boolean update(JobDto jobDto, int id) {
         JobDao jobDao = JobDao.getInstance();
         Job job = null;
         jobDto.setId(id);
@@ -86,7 +93,8 @@ public class JobService {
         return true;
     }
 
-    public boolean deleteJob(int id) {
+    @Override
+    public boolean delete(int id) {
         JobDao jobDao = JobDao.getInstance();
         try {
             em.getTransaction().begin();
@@ -104,7 +112,8 @@ public class JobService {
         return true;
     }
 
-    public boolean deleteAllJobs() {
+    @Override
+    public boolean deleteAll() {
         JobDao jobDao = JobDao.getInstance();
         try {
             em.getTransaction().begin();
@@ -120,5 +129,12 @@ public class JobService {
             em.close();
         }
         return true;
+    }
+
+    public Set<EmployeeDto> findJobEmployees(int id) {
+        JobDao jobDao = JobDao.getInstance();
+        Job job = jobDao.findOneById(em, id).orElse(null);
+        System.out.println(job);
+        return Employee.toDtoSet(job.getEmployees());
     }
 }

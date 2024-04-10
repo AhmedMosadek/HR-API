@@ -1,79 +1,27 @@
 package iti.jets.controllers;
 
+import iti.jets.dtos.EmployeeDto;
 import iti.jets.entities.Job;
 import jakarta.ws.rs.*;
 import iti.jets.dtos.JobDto;
 import iti.jets.services.JobService;
 
 import java.util.List;
+import java.util.Set;
 
 @Path("jobs")
-public class JobController {
+public class JobController extends GenericController<JobDto>{
 
-    @POST
-    @Consumes("application/json")
-    @Produces("text/plain")
-    public String createJob(JobDto jobDto) {
-        JobService jobService = new JobService();
-        if(jobService.createJob(jobDto)){
-            return "Job Created";
-        }
-        return "Error Creating Job,Please Try Again";
+    @Override
+    protected JobService getService() {
+        return new JobService();
     }
 
     @GET
-    @Path("/{id}")
+    @Path("/{id}/employees")
     @Produces("application/json")
-    public JobDto findJob(@PathParam("id") int id) {
+    public Set<EmployeeDto> findJobEmployees(@PathParam("id") int id) {
         JobService jobService = new JobService();
-        try {
-            JobDto jobDto = jobService.findJob(id);
-            return jobDto;
-        }catch (NullPointerException e){
-            return null;
-        }
-    }
-
-    @GET
-    @Produces("application/json")
-    public List<JobDto> findAllJobs() {
-        JobService jobService = new JobService();
-        return jobService.findAllJobs();
-    }
-
-    // update a job
-    @PUT
-    @Path("/{id}")
-    @Consumes("application/json")
-    @Produces("text/plain")
-    public String updateJob(JobDto jobDto, @PathParam("id") int id){
-        JobService jobService = new JobService();
-        if(jobService.updateJob(jobDto, id)){
-            return "Job Updated";
-        }
-        return "Error Updating Job,Please Try Again";
-    }
-
-    // delete a job
-    @DELETE
-    @Path("/{id}")
-    @Produces("text/plain")
-    public String deleteJob(@PathParam("id") int id) {
-        JobService jobService = new JobService();
-        if(jobService.deleteJob(id)){
-            return "Job Deleted";
-        }
-        return "Error Deleting Job,Please Try Again";
-    }
-
-    // delete all
-    @DELETE
-    @Produces("text/plain")
-    public String deleteAllJobs() {
-        JobService jobService = new JobService();
-        if(jobService.deleteAllJobs()){
-            return "All Jobs Deleted";
-        }
-        return "Error Deleting Jobs,Please Try Again";
+        return jobService.findJobEmployees(id);
     }
 }

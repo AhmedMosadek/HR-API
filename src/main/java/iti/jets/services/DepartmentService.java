@@ -13,10 +13,11 @@ import jakarta.persistence.EntityTransaction;
 import java.util.List;
 import java.util.Set;
 
-public class DepartmentService {
+public class DepartmentService implements BaseService<DepartmentDto> {
     private final EntityManager em = EntityManagerFactoryProvider.getEMF().createEntityManager();
 
-    public boolean createDepartment(DepartmentDto departmentDto) {
+    @Override
+    public boolean create(DepartmentDto departmentDto) {
         DepartmentDao departmentDao = DepartmentDao.getInstance();
         Department department = new Department();
 
@@ -45,18 +46,21 @@ public class DepartmentService {
         EmployeeDao.getInstance().findOneById(em, departmentDto.getManagerID()).ifPresent(department::setManager);
     }
 
-    public DepartmentDto findDepartment(int id) {
+    @Override
+    public DepartmentDto findById(int id) {
         DepartmentDao departmentDao = DepartmentDao.getInstance();
         return departmentDao.findOneById(em, id).get().toDto();
     }
 
-    public List<DepartmentDto> findAllDepartments() {
+    @Override
+    public List<DepartmentDto> findAll() {
         DepartmentDao departmentDao = DepartmentDao.getInstance();
         List<Department> departments = departmentDao.findAll(em);
         return Department.toDtoList(departments);
     }
 
-    public boolean updateDepartment(DepartmentDto departmentDto, int id) {
+    @Override
+    public boolean update(DepartmentDto departmentDto, int id) {
         DepartmentDao departmentDao = DepartmentDao.getInstance();
         Department department = null;
         departmentDto.setId(id);
@@ -80,7 +84,8 @@ public class DepartmentService {
         return true;
     }
 
-    public boolean deleteDepartment(int id) {
+    @Override
+    public boolean delete(int id) {
         DepartmentDao departmentDao = DepartmentDao.getInstance();
 
         try {
@@ -99,7 +104,8 @@ public class DepartmentService {
         return true;
     }
 
-    public boolean deleteAllDepartments() {
+    @Override
+    public boolean deleteAll() {
         DepartmentDao departmentDao = DepartmentDao.getInstance();
 
         try {
@@ -120,7 +126,7 @@ public class DepartmentService {
 
     public Set<EmployeeDto> findDepartmentEmployees(int id) {
         DepartmentDao departmentDao = DepartmentDao.getInstance();
-        Department department = departmentDao.findOneById(em, id).get();
+        Department department = departmentDao.findOneById(em, id).orElse(null);
         return Employee.toDtoSet(department.getEmployees());
     }
 }

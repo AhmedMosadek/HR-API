@@ -11,10 +11,11 @@ import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-public class AttendanceService {
+public class AttendanceService implements BaseService<AttendanceDto>{
     private final EntityManager em = EntityManagerFactoryProvider.getEMF().createEntityManager();
 
-    public boolean createAttendance(AttendanceDto attendanceDto) {
+    @Override
+    public boolean create(AttendanceDto attendanceDto) {
         AttendanceDao attendanceDao = AttendanceDao.getInstance();
         Attendance attendance = new Attendance();
 
@@ -42,18 +43,21 @@ public class AttendanceService {
         Optional.ofNullable(attendanceDto.getDate()).ifPresent(attendance::setDate);
     }
 
-    public AttendanceDto findAttendance(int id) {
+    @Override
+    public AttendanceDto findById(int id) {
         AttendanceDao attendanceDao = AttendanceDao.getInstance();
         return attendanceDao.findOneById(em, id).get().toDto();
     }
 
-    public List<AttendanceDto> findAllAttendances() {
+    @Override
+    public List<AttendanceDto> findAll() {
         AttendanceDao attendanceDao = AttendanceDao.getInstance();
         List<Attendance> attendances = attendanceDao.findAll(em);
         return Attendance.toDtoList(attendances);
     }
 
-    public boolean updateAttendance(AttendanceDto attendanceDto, int id) {
+    @Override
+    public boolean update(AttendanceDto attendanceDto, int id) {
         AttendanceDao attendanceDao = AttendanceDao.getInstance();
         Attendance attendance = null;
         attendanceDto.setId(id);
@@ -74,7 +78,8 @@ public class AttendanceService {
         return true;
     }
 
-    public boolean deleteAttendance(int id) {
+    @Override
+    public boolean delete(int id) {
         AttendanceDao attendanceDao = AttendanceDao.getInstance();
 
         try {
@@ -91,7 +96,8 @@ public class AttendanceService {
         return true;
     }
 
-    public boolean deleteAllAttendances() {
+    @Override
+    public boolean deleteAll() {
         AttendanceDao attendanceDao = AttendanceDao.getInstance();
 
         try {
