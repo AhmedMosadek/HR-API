@@ -16,34 +16,37 @@ public abstract class GenericController<T> {
     @Produces("text/plain")
     public Response create(T dto) {
         if (getService().create(dto)) {
+            System.out.println(dto.getClass().getSimpleName() + " Created");
             return Response.status(Response.Status.CREATED).entity(dto.getClass().getSimpleName() + " Created").build();
-        }
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
-                entity("Error Creating " + dto.getClass().getSimpleName()
-                        + ", Please Try Again").build();
+        } else
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+                    entity("Error Creating " + dto.getClass().getSimpleName()
+                            + ", Please Try Again").build();
     }
 
     @GET
     @Path("/{id}")
     @Produces("application/json")
     public Response findById(@PathParam("id") int id) {
-        T result = getService().findById(id);
-        if (result != null) {
-            return Response.ok(result).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        try {
+            T result = getService().findById(id);
+                System.out.println(result.getClass().getSimpleName() + " Found");
+                return Response.ok(result).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error Finding " + id + ", Please Try Again").build();
         }
     }
 
     @GET
     @Produces("application/json")
     public Response findAll() {
+        try {
         List<T> results = getService().findAll();
-        if (!results.isEmpty()) {
             return Response.ok(results).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error Finding All, Please Try Again").build();
         }
+
     }
 
     @PUT
