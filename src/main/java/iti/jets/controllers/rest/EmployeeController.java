@@ -1,11 +1,8 @@
-package iti.jets.controllers;
+package iti.jets.controllers.rest;
 
 import iti.jets.dtos.EmployeeDto;
-import iti.jets.entities.Employee;
 import iti.jets.services.EmployeeService;
 import jakarta.ws.rs.*;
-
-import java.util.List;
 
 
 @Path("employees")

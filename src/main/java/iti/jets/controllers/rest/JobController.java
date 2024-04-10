@@ -1,12 +1,10 @@
-package iti.jets.controllers;
+package iti.jets.controllers.rest;
 
 import iti.jets.dtos.EmployeeDto;
-import iti.jets.entities.Job;
 import jakarta.ws.rs.*;
 import iti.jets.dtos.JobDto;
 import iti.jets.services.JobService;
 
-import java.util.List;
 import java.util.Set;
 
 @Path("jobs")

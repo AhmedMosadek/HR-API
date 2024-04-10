@@ -1,4 +1,4 @@
-package iti.jets.controllers;
+package iti.jets.controllers.rest;
 
 import iti.jets.services.BaseService;
 

@@ -1,13 +1,10 @@
-package iti.jets.controllers;
+package iti.jets.controllers.rest;
 
 import iti.jets.dtos.DepartmentDto;
 import iti.jets.dtos.EmployeeDto;
-import iti.jets.entities.Department;
-import iti.jets.entities.Employee;
 import iti.jets.services.DepartmentService;
 import jakarta.ws.rs.*;
 
-import java.util.List;
 import java.util.Set;
 
 @Path("departments")
