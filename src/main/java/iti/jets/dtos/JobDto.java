@@ -10,7 +10,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-@XmlRootElement(name = "user")
+@XmlRootElement(name = "job")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Getter
 @Setter

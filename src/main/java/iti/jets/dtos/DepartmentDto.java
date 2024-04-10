@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-@XmlRootElement(name = "user")
+@XmlRootElement(name = "department")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Getter
 @Setter

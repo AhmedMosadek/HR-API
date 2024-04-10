@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@XmlRootElement(name = "user")
+@XmlRootElement(name = "employee")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Getter
 @Setter
