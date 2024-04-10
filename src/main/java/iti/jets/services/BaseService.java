@@ -1,7 +1,5 @@
 package iti.jets.services;
 
-import iti.jets.dtos.BaseDto;
-
 import java.util.List;
 
 public interface BaseService<T> {

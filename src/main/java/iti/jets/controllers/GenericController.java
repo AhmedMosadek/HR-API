@@ -1,6 +1,5 @@
 package iti.jets.controllers;
 
-import iti.jets.dtos.BaseDto;
 import iti.jets.services.BaseService;
 
 import jakarta.ws.rs.*;
