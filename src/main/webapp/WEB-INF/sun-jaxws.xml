@@ -1,0 +1,21 @@
+<endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime" version="2.0">
+    <endpoint
+            name="EmployeeWebService"
+            implementation="iti.jets.controllers.soap.EmployeeWebServiceImpl"
+            url-pattern="/employee"></endpoint>
+
+    <endpoint
+            name="DepartmentWebService"
+            implementation="iti.jets.controllers.soap.DepartmentWebServiceImpl"
+            url-pattern="/department"></endpoint>
+
+    <endpoint
+            name="JobWebService"
+            implementation="iti.jets.controllers.soap.JobWebServiceImpl"
+            url-pattern="/job"></endpoint>
+
+    <endpoint
+            name="AttendanceWebService"
+            implementation="iti.jets.controllers.soap.AttendanceWebServiceImpl"
+            url-pattern="/attendance"></endpoint>
+</endpoints>

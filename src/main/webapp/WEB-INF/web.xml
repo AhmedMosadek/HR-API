@@ -16,4 +16,44 @@
         <servlet-name>Jersey Web Application</servlet-name>
         <url-pattern>/webapi/*</url-pattern>
     </servlet-mapping>
+
+
+    <!--               soap              -->
+    <listener>
+        <listener-class>
+            com.sun.xml.ws.transport.http.servlet.WSServletContextListener
+        </listener-class>
+    </listener>
+    
+    <servlet>
+        <servlet-name>EmployeeWebService</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>DepartmentWebService</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>JobWebService</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>AttendanceWebService</servlet-name>
+        <servlet-class>
+            com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 </web-app>
